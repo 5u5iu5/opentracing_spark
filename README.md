@@ -4,7 +4,7 @@ The main goal is to understand how to works opentracing with a couple of simple 
 
 ## Simple Flow
 
-![alt text](/images/diagram.PNG "Diagram")
+!(/images/diagram.PNG "Diagram")
 
 ```mermaid
 sequenceDiagram
@@ -15,4 +15,3 @@ ComplexGrettings-->>SimpleGrettings: And Welcome <requested name>
 And this will produce a flow chart:
 
 
-# opentracing_spark
