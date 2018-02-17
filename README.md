@@ -4,7 +4,7 @@ The main goal is to understand how to works opentracing with a couple of simple 
 
 ## Simple Flow
 
-![Easy diagram](../images/diagram.PNG "Diagram")
+![Easy diagram](https://github.com/sucius/opentracing_spark/blob/master/images/diagram.PNG "Diagram")
 
 ```mermaid
 sequenceDiagram
