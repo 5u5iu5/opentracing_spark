@@ -1,6 +1,6 @@
-# Opentracing demo.
+# OpenTracing demo.
 
-The main goal is to understand how to works opentracing with a couple of simple Spark core microservices.
+The main goal is to understand how to works OpenTracing with a couple of simple Spark core microservices.
 
 ## Simple Flow
 
