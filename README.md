@@ -4,7 +4,7 @@ The main goal is to understand how to works opentracing with a couple of simple 
 
 ## Simple Flow
 
-!(/images/diagram.PNG "Diagram")
+![Easy diagram](../images/diagram.PNG "Diagram")
 
 ```mermaid
 sequenceDiagram
