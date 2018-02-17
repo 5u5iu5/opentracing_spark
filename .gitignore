@@ -11,11 +11,6 @@
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 
-## File-based project format:
-*.iws
-
-## Plugin-specific files:
-
 # IntelliJ
 out/
 
@@ -24,4 +19,7 @@ out/
 
 # JIRA plugin
 atlassian-ide-plugin.xml
+
+# Maven
+target/*
 

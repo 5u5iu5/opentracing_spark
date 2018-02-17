@@ -12,6 +12,5 @@ SimpleGrettings ->> ComplexGrettings: Hello <requested name>
 ComplexGrettings-->>SimpleGrettings: And Welcome <requested name>
 ```
 
-And this will produce a flow chart:
 
 
