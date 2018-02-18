@@ -3,10 +3,16 @@ package com.sucius.spark;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import io.opentracing.Span;
+import io.opentracing.util.GlobalTracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Arrays;
+import java.util.Properties;
 
 import static spark.Spark.*;
 
@@ -14,10 +20,13 @@ public class SimpleGreetings {
 
     private static final Logger log = LoggerFactory.getLogger(SimpleGreetings.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         /** SERVER **/
         port(8080);
+
+        /** OPENTRACING CONFIG **/
+        configureGlobalTracer(configOpenTracing(), "simpleGreetings");
 
         /** FILTERS **/
 
@@ -26,6 +35,43 @@ public class SimpleGreetings {
         /** ENDPOINTS **/
 
         setEndpoints();
+    }
+
+    private static Properties configOpenTracing() throws Exception {
+        Properties config = loadConfig();
+        if (!configureGlobalTracer(config, "MicroDonuts"))
+            throw new Exception("Could not configure the global tracer");
+
+        return config;
+    }
+
+    static boolean configureGlobalTracer(Properties config, String componentName)
+            throws MalformedURLException {
+        String tracerName = config.getProperty("tracer");
+        if ("jaeger".equals(tracerName)) {
+            GlobalTracer.register(
+                    new com.uber.jaeger.Configuration(
+                            componentName,
+                            new com.uber.jaeger.Configuration.SamplerConfiguration("const", 1),
+                            new com.uber.jaeger.Configuration.ReporterConfiguration(
+                                    true,  // logSpans
+                                    config.getProperty("jaeger.reporter_host"),
+                                    Integer.decode(config.getProperty("jaeger.reporter_port")),
+                                    1000,   // flush interval in milliseconds
+
+                                    10000)  // max buffered Spans
+                    ).getTracer());
+        }
+
+        return true;
+    }
+
+    static Properties loadConfig() throws IOException {
+        String file = "tracer_config.properties";
+        FileInputStream fs = new FileInputStream(file);
+        Properties config = new Properties();
+        config.load(fs);
+        return config;
     }
 
     private static void setEndpoints() {
@@ -43,11 +89,14 @@ public class SimpleGreetings {
         before("/hello", (request, response) -> {
             System.out.println(request.headers());
             log.info("Before call");
+            Span simpleSpan = GlobalTracer.get().buildSpan("simple_hello_span").start();
+            request.attribute("span", simpleSpan);
         });
 
         after("/hello", (request, response) -> {
             System.out.println(request.headers());
             log.info("After call");
+
         });
     }
 

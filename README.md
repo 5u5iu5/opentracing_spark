@@ -1,4 +1,4 @@
-# OpenTracing demo.
+# OpenTracing demo and training.
 
 The main goal is to understand how to works OpenTracing with a couple of simple Spark core microservices.
 
@@ -12,5 +12,11 @@ SimpleGrettings ->> ComplexGrettings: Hello <requested name>
 ComplexGrettings-->>SimpleGrettings: And Welcome <requested name>
 ```
 
+# Things that you need
 
+## Docker, of course
+
+For this training I'm using jaeger, but you have more options: http://opentracing.io/documentation/pages/supported-tracers
+
+> docker run -d -p 5775:5775/udp -p 16686:16686 jaegertracing/all-in-one:latest
 
