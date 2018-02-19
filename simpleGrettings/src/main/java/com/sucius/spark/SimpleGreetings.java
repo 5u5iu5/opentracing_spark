@@ -26,19 +26,17 @@ public class SimpleGreetings {
     private static final Logger log = LoggerFactory.getLogger(SimpleGreetings.class);
 
     public static void main(String[] args) throws Exception {
-
         /** SERVER **/
         port(8080);
+
+        /** FILTERS **/
+        configFilters();
 
         /** OPENTRACING CONFIG **/
         configOpenTracing();
 
-        /** FILTERS **/
-
-        configFilters();
 
         /** ENDPOINTS **/
-
         setEndpoints();
     }
 
@@ -91,14 +89,14 @@ public class SimpleGreetings {
     }
 
     private static void configFilters() {
-        before("/hello", (request, response) -> {
+        before("/hello/*", (request, response) -> {
             System.out.println(request.headers());
             log.info("Before call");
             Span simpleSpan = GlobalTracer.get().buildSpan("simple_hello_span").start();
             request.attribute("span", simpleSpan);
         });
 
-        after("/hello", (request, response) -> {
+        after("/hello/*", (request, response) -> {
             System.out.println(request.headers());
             log.info("After call");
             Span simpleSpan = request.attribute("span");
