@@ -14,10 +14,14 @@ ComplexGrettings-->>SimpleGrettings: And Welcome <requested name>
 
 # Things that you need
 
+## You need to do the request.
+
+For example: http://localhost:8080/hello/Arya
+
 ## Docker, of course
 
 For this training I'm using jaeger, but you have more options: http://opentracing.io/documentation/pages/supported-tracers
 
 > docker run -d -p 5775:5775/udp -p 16686:16686 jaegertracing/all-in-one:latest
 
-You can open http://localhost:16686/
+You can open http://localhost:16686/ and see the simple traces in Jaeger UI.
