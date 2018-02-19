@@ -8,9 +8,14 @@ import io.opentracing.util.GlobalTracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -26,7 +31,7 @@ public class SimpleGreetings {
         port(8080);
 
         /** OPENTRACING CONFIG **/
-        configureGlobalTracer(configOpenTracing(), "simpleGreetings");
+        configOpenTracing();
 
         /** FILTERS **/
 
@@ -39,7 +44,7 @@ public class SimpleGreetings {
 
     private static Properties configOpenTracing() throws Exception {
         Properties config = loadConfig();
-        if (!configureGlobalTracer(config, "MicroDonuts"))
+        if (!configureGlobalTracer(config, "grettingsSimple"))
             throw new Exception("Could not configure the global tracer");
 
         return config;
@@ -66,8 +71,8 @@ public class SimpleGreetings {
         return true;
     }
 
-    static Properties loadConfig() throws IOException {
-        String file = "tracer_config.properties";
+    static Properties loadConfig() throws IOException, URISyntaxException {
+        File file = new File(SimpleGreetings.class.getClassLoader().getResource("tracer_config.properties").toURI());
         FileInputStream fs = new FileInputStream(file);
         Properties config = new Properties();
         config.load(fs);
@@ -96,6 +101,8 @@ public class SimpleGreetings {
         after("/hello", (request, response) -> {
             System.out.println(request.headers());
             log.info("After call");
+            Span simpleSpan = request.attribute("span");
+            simpleSpan.finish();
 
         });
     }
