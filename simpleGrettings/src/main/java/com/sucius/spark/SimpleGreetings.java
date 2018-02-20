@@ -1,13 +1,16 @@
 package com.sucius.spark;
 
 import io.opentracing.Span;
-import io.opentracing.util.GlobalTracer;
+import io.opentracing.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import spark.Request;
 
+import java.util.Optional;
+
+import static com.sucius.spark.endpoints.Endpoints.setEndpoints;
 import static com.sucius.spark.opentracing.OpenTracingConfiguration.configOpenTracing;
 import static spark.Spark.*;
-import static com.sucius.spark.endpoints.Endpoints.*;
 
 public class SimpleGreetings {
 
@@ -17,22 +20,23 @@ public class SimpleGreetings {
         /** SERVER **/
         port(8080);
 
-        /** FILTERS **/
-        configFilters();
-
         /** OPENTRACING CONFIG **/
-        configOpenTracing();
+        Optional<Tracer> tracer = configOpenTracing();
+
+        /** FILTERS **/
+        configFilters(tracer);
+
 
         /** ENDPOINTS **/
         setEndpoints();
     }
 
 
-    private static void configFilters() {
+    private static void configFilters(Optional<Tracer> tracer) {
         before((request, response) -> {
             System.out.println(request.pathInfo());
             log.info("Before call -> " + request.pathInfo());
-            Span simpleSpan = GlobalTracer.get().buildSpan(request.pathInfo()).start();
+            Span simpleSpan = getSpan(tracer, request);
             request.attribute("span", simpleSpan);
         });
 
@@ -43,6 +47,14 @@ public class SimpleGreetings {
             simpleSpan.finish();
 
         });
+    }
+
+    private static Span getSpan(Optional<Tracer> tracer, Request request) {
+        Span simpleSpan = null;
+        if (tracer.isPresent()) {
+            simpleSpan = tracer.get().buildSpan(request.pathInfo()).start();
+        }
+        return simpleSpan;
     }
 
 

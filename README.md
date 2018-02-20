@@ -16,7 +16,8 @@ ComplexGrettings-->>SimpleGrettings: And Welcome <requested name>
 
 ## You need to do the request.
 
-For example: http://localhost:8080/hello/Arya
+For example:
+> curl http://localhost:8080/hello/Arya
 
 ## Docker, of course
 
