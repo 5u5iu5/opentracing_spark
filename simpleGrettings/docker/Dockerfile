@@ -4,6 +4,6 @@ MAINTAINER alvaro.pozo.cuenca@gmail.com
 
 WORKDIR /home
 
-COPY ./simplegrettings-1.0-SNAPSHOT.jar /
+COPY ./simplegrettings-1.0-SNAPSHOT.jar /home
 
 EXPOSE 8080 8080

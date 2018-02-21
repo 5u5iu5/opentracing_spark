@@ -83,7 +83,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.1</version>
                 <configuration>
-                    <outputDirectory>${project.basedir}</outputDirectory>
+                    <outputDirectory>${project.basedir}/docker</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>
