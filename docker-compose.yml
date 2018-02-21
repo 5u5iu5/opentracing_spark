@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  simple:
+    build: './simpleGrettings/docker'
+    ports:
+          - "8080:8080"
+  complex:
+    build: './complexGrettings/docker'
+    ports:
+          - "8081:8081"

@@ -22,7 +22,7 @@ public class ComplexGreetings {
     public static void main(String[] args) throws Exception {
 
         /** SERVER **/
-        port(8080);
+        port(8081);
 
         /** OPENTRACING CONFIG **/
         Optional<Tracer> tracer = configOpenTracing();
