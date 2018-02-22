@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  simple:
+    build: './simpleGrettings/docker'
+    networks:
+      - mynet
+    ports:
+          - "8080:8080"
+  complex:
+    build: './complexGrettings/docker'
+    networks:
+      - mynet
+    ports:
+          - "8081:8081"
+
+networks:
+  mynet:
+    driver: bridge

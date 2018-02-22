@@ -14,6 +14,9 @@ ComplexGrettings-->>SimpleGrettings: And Welcome <requested name>
 
 # Things that you need
 
+## Install artifacts from parent project as follow :
+> mvn clean install
+
 ## You need to do the request.
 
 For example:
