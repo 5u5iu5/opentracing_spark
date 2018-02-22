@@ -12,6 +12,8 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <detachedMode>true</detachedMode>
+        <dockerCompose>true</dockerCompose>
     </properties>
 
     <modules>
@@ -19,4 +21,45 @@
         <module>complexgrettings</module>
     </modules>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.dkanejs.maven.plugins</groupId>
+            <artifactId>docker-compose-maven-plugin</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+    </dependencies>
+
+    <!--<build>-->
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>com.dkanejs.maven.plugins</groupId>-->
+                <!--<artifactId>docker-compose-maven-plugin</artifactId>-->
+                <!--<version>1.0.1</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>up</id>-->
+                        <!--<phase>install</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>up</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<composeFile>docker-compose.yml</composeFile>-->
+                            <!--<detachedMode>${detachedMode}</detachedMode>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                    <!--<execution>-->
+                        <!--<id>down</id>-->
+                        <!--<phase>post-clean</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>down</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<composeFile>docker-compose.yml</composeFile>-->
+                            <!--<removeVolumes>true</removeVolumes>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
+    <!--</build>-->
 </project>

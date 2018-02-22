@@ -4,6 +4,8 @@ MAINTAINER alvaro.pozo.cuenca@gmail.com
 
 WORKDIR /home
 
-COPY ./simplegrettings-1.0-SNAPSHOT.jar /home
+ADD /simpleGrettings-jar-with-dependencies.jar /home
+
+CMD java -jar simpleGrettings-jar-with-dependencies.jar
 
 EXPOSE 8080 8080

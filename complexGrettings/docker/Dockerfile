@@ -4,6 +4,8 @@ MAINTAINER alvaro.pozo.cuenca@gmail.com
 
 WORKDIR /home
 
-COPY ./complexgrettings-1.0-SNAPSHOT.jar /home
+ADD /compplexGrettings-jar-with-dependencies.jar /home
+
+CMD java -jar compplexGrettings-jar-with-dependencies.jar
 
 EXPOSE 8081 8081

@@ -7,6 +7,11 @@ services:
       - mynet
     ports:
           - "8080:8080"
+    depends_on:
+      - complex
+    links:
+      - complex
+
   complex:
     build: './complexGrettings/docker'
     networks:
@@ -17,3 +22,4 @@ services:
 networks:
   mynet:
     driver: bridge
+

@@ -91,17 +91,16 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.4.1</version>
                 <configuration>
-                    <!-- get all project dependencies -->
+                    <finalName>simpleGrettings</finalName>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <!-- MainClass in mainfest make a executable jar -->
                     <archive>
                         <manifest>
                             <mainClass>com.sucius.spark.SimpleGreetings</mainClass>
                         </manifest>
                     </archive>
-
+                <outputDirectory>${project.basedir}/docker</outputDirectory>
                 </configuration>
                 <executions>
                     <execution>
