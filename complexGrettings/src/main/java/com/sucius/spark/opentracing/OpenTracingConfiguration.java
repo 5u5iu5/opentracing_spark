@@ -4,8 +4,6 @@ import com.sucius.spark.ComplexGreetings;
 import io.opentracing.Tracer;
 import io.opentracing.util.GlobalTracer;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
