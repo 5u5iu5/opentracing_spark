@@ -7,6 +7,7 @@ import io.opentracing.util.GlobalTracer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Optional;
@@ -49,10 +50,10 @@ public class OpenTracingConfiguration {
     }
 
     static Properties loadConfig() throws IOException, URISyntaxException {
-        File file = new File(SimpleGreetings.class.getClassLoader().getResource("tracer_config.properties").toURI());
-        FileInputStream fs = new FileInputStream(file);
+        InputStream is = SimpleGreetings.class.getResourceAsStream("/tracer_config.properties");
+        System.out.println(is.toString());
         Properties config = new Properties();
-        config.load(fs);
+        config.load(is);
         return config;
     }
 }
