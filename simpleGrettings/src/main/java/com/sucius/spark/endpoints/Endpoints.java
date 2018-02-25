@@ -2,6 +2,7 @@ package com.sucius.spark.endpoints;
 
 import com.sucius.spark.SimpleGreetings;
 import com.sucius.spark.services.ClientREST;
+import io.opentracing.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

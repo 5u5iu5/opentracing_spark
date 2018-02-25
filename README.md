@@ -1,4 +1,5 @@
 # OpenTracing demo and training.
+## This Branch is a RPC demostration.
 
 The main goal is to understand how to works OpenTracing with a couple of simple Spark core microservices.
 
