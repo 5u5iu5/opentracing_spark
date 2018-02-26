@@ -3,15 +3,15 @@ package com.sucius.spark;
 import io.opentracing.Span;
 import io.opentracing.SpanContext;
 import io.opentracing.Tracer;
-import io.opentracing.Scope;
 import io.opentracing.propagation.Format;
 import io.opentracing.propagation.TextMapExtractAdapter;
+import io.opentracing.tag.Tags;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Request;
 
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -41,13 +41,10 @@ public class ComplexGreetings {
     }
 
     private static void configFilters() {
-        before((request, response) -> {
+        before("/hello/*", (request, response) -> {
             System.out.println(request.pathInfo());
             log.info("Before call -> " + request.pathInfo());
-
-
-
-            Span simpleSpan = getSpan(tracer, request);
+            Span simpleSpan = startServerSpan(request,"Hello_Span_From_Complex");
             request.attribute("span", simpleSpan);
         });
 
@@ -73,26 +70,24 @@ public class ComplexGreetings {
         System.exit(100);
     };
 
-    public static Scope startServerSpan(Tracer tracer, javax.ws.rs.core.HttpHeaders httpHeaders,
-                                        String operationName) {
-        // format the headers for extraction
-        MultivaluedMap<String, String> rawHeaders = httpHeaders.getRequestHeaders();
-        final HashMap<String, String> headers = new HashMap<String, String>();
-        for (String key : rawHeaders.keySet()) {
-            headers.put(key, rawHeaders.get(key).get(0));
-        }
+    public static Span startServerSpan(Request request,
+                                       String operationName) {
+
+        Map<String, String> headers = new HashMap<>();
+        request.headers().stream().map(header ->  headers.put(header, request.headers(header)));
 
         Tracer.SpanBuilder spanBuilder;
         try {
-            SpanContext parentSpan = tracer.extract(Format.Builtin.HTTP_HEADERS, new TextMapExtractAdapter(headers));
+            SpanContext parentSpan = tracer.get().extract(Format.Builtin.HTTP_HEADERS, new TextMapExtractAdapter(headers));
             if (parentSpan == null) {
-                spanBuilder = tracer.buildSpan(operationName);
+                spanBuilder = tracer.get().buildSpan(operationName);
             } else {
-                spanBuilder = tracer.buildSpan(operationName).asChildOf(parentSpan);
+                spanBuilder = tracer.get().buildSpan(operationName).asChildOf(parentSpan);
             }
         } catch (IllegalArgumentException e) {
-            spanBuilder = tracer.buildSpan(operationName);
+            spanBuilder = tracer.get().buildSpan(operationName);
         }
-        return spanBuilder.withTag(Tags.SPAN_KIND.getKey(), Tags.SPAN_KIND_SERVER).startActive(true);
+        return spanBuilder.withTag(Tags.SPAN_KIND.getKey(), Tags.SPAN_KIND_SERVER).start();
     }
+
 }

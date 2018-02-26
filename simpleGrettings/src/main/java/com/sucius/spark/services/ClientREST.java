@@ -17,7 +17,8 @@ public class ClientREST {
     public static String makeCallToHelloComplexGrettingsService(String hello) {
         String response = null;
         try {
-            HttpResponse<String> stringResponse = Unirest.get("http://complex:8081/hello/{hello}")
+//            HttpResponse<String> stringResponse = Unirest.get("http://complex:8081/hello/{hello}")
+            HttpResponse<String> stringResponse = Unirest.get("http://localhost:8081/hello/{hello}")
                     .header("accept", "application/string")
                     .routeParam("hello", hello)
                     .asString();
